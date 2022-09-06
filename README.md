@@ -5,7 +5,7 @@ Nubarium Biometrics WEB SDK guides for developers.
 
 - Android - Chrome (Version 104 and above)
 - iOS -  Safari  (Version 14.8 and above), Chrome/Firefox ( not supported )
-- MacOS - Safari  & 
+- MacOS - Safari & Chrome Version 56 and above)
 - Windows - Chrome Version 56 and above) & Edge
 
 ## Components
@@ -67,7 +67,7 @@ let faceCapture = new FaceCapture();
 // Define your configuration
 let config = {
   env: 'sandbox', // OPTIONAL - Used wherever the user want to implement in their development envrionment  
-	rootElement: 'face_component',   // DOM Element that will contains the HTML Component
+  rootElement: 'face_component',   // DOM Element that will contains the HTML Component
   timeout: 180000,        // OPTIONAL - Time before expires the test (defaul)
   cameras: ['front', 'back']   // OPTIONAL - Cameras allowed to perform the test
 };
@@ -136,7 +136,7 @@ let idCapture = new IdCapture();
 // Define your configuration
 let config = {
   env: 'sandbox' // OPTIONAL - Used wherever the user want to implement in their development envrionment  
-	rootElement: 'video_component',   // DOM Element that will contains the HTML Component
+  rootElement: 'video_component',   // DOM Element that will contains the HTML Component
   timeout: 300000        // OPTIONAL - Time before expires the test (defaul)
 };
 // Initialize the component with your custom configuration
