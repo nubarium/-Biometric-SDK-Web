@@ -66,7 +66,6 @@ let faceCapture = new FaceCapture();
 
 // Define your configuration
 let config = {
-  env: 'sandbox', // OPTIONAL - Used wherever the user want to implement in their development environment  
   rootElement: 'face_component',   // DOM Element that will contains the HTML Component
   timeout: 180000,        // OPTIONAL - Time before expires the test (defaul)
   cameras: ['front', 'back']   // OPTIONAL - Cameras allowed to perform the test
