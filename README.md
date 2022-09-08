@@ -135,9 +135,11 @@ let idCapture = new IdCapture();
 
 // Define your configuration
 let config = {
-  env: 'sandbox' // OPTIONAL - Used wherever the user want to implement in their development envrionment  
   rootElement: 'video_component',   // DOM Element that will contains the HTML Component
-  timeout: 300000        // OPTIONAL - Time before expires the test (defaul)
+  timeouts: {
+    front: 25000,
+    back: 25000
+  },       // OPTIONAL - Time before expires the test (defaul)
 };
 // Initialize the component with your custom configuration
 idCapture.init(config);
@@ -201,21 +203,24 @@ Then you will need to declare the javascript code that calls the library
 
 ```javascript
 // Class initialization with the Application Context
-let videoRecord = new VideoRecord();
+let videoRecorder = new VideoRecorder();
 
 // Define your configuration
 let config = {
-  env: 'sandbox' // OPTIONAL - Used wherever the user want to implement in their development envrionment  
-	rootElement: 'video_component',   // DOM Element that will contains the HTML Component
-  timeout: 300000,        // OPTIONAL - Time before expires the test (defaul)
-  textToSpeech: "Yo Juan Perez",   // OPTIONAL - Cameras allowed to perform the test
+  rootElement: 'video_component',   // DOM Element that will contains the HTML Component
+  textToPronounce: 'Yo Juan perez acepto la solicitud de credito',
+  timeouts: {
+    face: 12000,
+    front: 15000,
+    back: 13000
+  },       // OPTIONAL - Time before expires the test (defaul)
   requestId: 'bv1234568.96543',  // OPTIONAL - In case you requires to set the text to speech in the backend
   store: false // OPTIONAL - In case you requires to store after 48 hours of recording.
 };
 // Initialize the component with your custom configuration
-videoRecord.init(config);
+videoRecorder.init(config);
 // Set the JWT token
-videoRecord.setToken('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im51Y.....'); // YOUR JWT TOKEN
+videoRecorder.setToken('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im51Y.....'); // YOUR JWT TOKEN
 ```
 
 #### Step 2: Load the component
