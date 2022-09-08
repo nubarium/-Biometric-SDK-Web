@@ -4,9 +4,9 @@ Nubarium Biometrics WEB SDK guides for developers.
 ## SDK compatibility
 
 - Android - Chrome (Version 104 and above)
-- iOS -  Safari  (Version 14.8 and above), Chrome/Firefox ( not supported )
-- MacOS - Safari & Chrome Version 56 and above)
 - Windows - Chrome Version 56 and above) & Edge
+- iOS -  Safari  (Version 14.8 and above)
+- MacOS - Safari & Chrome Version 56 and above)
 
 ## Components
 
