@@ -59,7 +59,11 @@
     <script>
         let config = {
             rootElement: 'micomponente',
-            timeout: 180000
+            timeouts: {
+                face: 120000,
+                front: 150000,
+                back: 130000,
+            }
         };
         let idCapture = new IdCapture();
         idCapture.setToken('yourtoken');
