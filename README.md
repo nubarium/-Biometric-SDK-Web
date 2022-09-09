@@ -14,7 +14,7 @@ The library includes 3 components,
 
 - FaceCapture
 - IdCapture
-- VideoRecorder
+- VideoSelfie
 
 ## Installation
 
