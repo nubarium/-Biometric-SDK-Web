@@ -186,7 +186,7 @@ We recommen to start the component right after the load,  but in case it is requ
 idCapture.start();
 ```
 
-### VideoRecorder
+### Video Selfie
 
 #### **Step 1: Initialize the SDK**
 
