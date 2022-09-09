@@ -212,7 +212,7 @@ let config = {
     face: 12000,
     front: 15000,
     back: 13000
-  },       // OPTIONAL - Time before expires the test (defaul)
+  },       // OPTIONAL - Time before the test expires (default)
   requestId: 'bv1234568.96543',  // OPTIONAL - In case you requires to set the text to speech in the backend
   store: false // OPTIONAL - In case you requires to store after 48 hours of recording.
 };
