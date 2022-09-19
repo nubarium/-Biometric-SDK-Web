@@ -27,7 +27,6 @@ Install the Android SDK using Gradle.
 ### Library
 
 **Step 1: Include the library and it dependencies**
-In the Project `build.gradle` file, declare the `jitpack` repository:
 
 ```html
 <!-- Third party dependency bundle -->
@@ -41,7 +40,7 @@ In the Project `build.gradle` file, declare the `jitpack` repository:
 ### Before you begin
 
 - Get the Nubarium Key or API Credentials. It is required to successfully initialize the SDK.
-- Implement the REST API call in your back-end to generate the token. 
+- Implement the REST API call in your back-end to generate the [JWT token](https://github.com/nubarium/-Biometric-SDK-Web/blob/main/JWT.md). 
 - All the steps in this document are mandatory unless stated otherwise.
 
 ## Initializing the SDK
@@ -134,7 +133,7 @@ let idCapture = new IdCapture();
 
 // Define your configuration
 let config = {
-  rootElement: 'video_component',   // DOM Element that will contains the HTML Component
+  rootElement: 'id_component',   // DOM Element that will contains the HTML Component
   timeouts: {
     front: 25000,
     back: 25000
@@ -260,4 +259,5 @@ We recommen to start the component right after the load,  but in case it is requ
 ```javascript
 videoRecord.start();
 ```
+
 
