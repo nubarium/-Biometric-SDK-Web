@@ -16,7 +16,7 @@ Create a JWT Token for the given credentials
 
 **Code** : `200 OK`
 
-**Valid until** :  Your token will be valid for <u>2 hours</u>.
+**Valid until** :  Your token will be valid for <u>1 hour</u>.
 
 **Content example**
 
