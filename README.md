@@ -18,8 +18,6 @@ The library includes 3 components,
 
 ## Installation
 
-Install the Android SDK using Gradle.
-
 ### Prerequisites
 
 - You must have your Nubarium credentials. 
@@ -40,8 +38,18 @@ Install the Android SDK using Gradle.
 ### Before you begin
 
 - Get the Nubarium Key or API Credentials. It is required to successfully initialize the SDK.
-- Implement the REST API call in your back-end to generate the [JWT token](https://github.com/nubarium/-Biometric-SDK-Web/blob/main/JWT.md). 
+- Implement the REST API call in your back-end to generate the [JWT token](https://github.com/nubarium/-Biometric-SDK-Web/blob/main/JWT.md).
 - All the steps in this document are mandatory unless stated otherwise.
+
+### Reference
+
+- Rest API SDK Documentation.
+
+### Versions
+
+- Rest API SDK Documentation.
+
+ 
 
 ## Initializing the SDK
 
@@ -65,15 +73,20 @@ let faceCapture = new FaceCapture();
 
 // Define your configuration
 let config = {
-  rootElement: 'face_component',   // DOM Element that will contains the HTML Component
-  timeout: 180000,        // OPTIONAL - Time before expires the test (defaul)
-  cameras: ['front', 'back']   // OPTIONAL - Cameras allowed to perform the test
+  rootElement: 'face_component'   // DOM Element that will contains the HTML Component
 };
 // Initialize the component with your custom configuration
 faceCapture.init(config);
 // Set the JWT token
 faceCapture.setToken('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im51Y.....'); // YOUR JWT TOKEN
 ```
+
+##### Configuration options
+
+- **rootElement** (req): DOM Element where the component will be drawn.
+- **maxValidations** (req): Max number of failed evaluations, the default values is 3.
+- **timeout** (opt): Elapsed time in miliseconds to finish the test. (Default value of `180000`) 
+- **cameras** (opt): Specify the cameras allowed to perform the test in order to show to the user, it can be an array list of options or a string, the accepted values are 'front', 'back', 'default'.  Example, `['front', 'back', 'default']`
 
 #### Step 2: Load the component
 
@@ -96,7 +109,9 @@ faceCapture.onSuccess((data) => {
   let id = data.id;
   let result = data.result;
   let face = data.face;
+  let frame = data.frame;  
 }).onFail((fail) => {
+  let id = fail.id;  
   let reason = fail.reason;
   let result = fail.result;
 }).onError((error) => {
@@ -105,6 +120,28 @@ faceCapture.onSuccess((data) => {
 });
 ```
 
+##### Output
+
+- **OnSuccess**
+
+  - *id*: Transaction id, 
+  - *result*: Object with the result of the evaluation.
+    - score: Score index of the evaluation
+    - evaluation: Result of evaluation (`pass` , `warning`)
+  - *face*: Face image represented as Base64 string.
+  - *frame*: Frame image represented as Base64 string.
+
+- OnFail
+
+  - *reason*: Reason of the fail (   `capture_face_timeout` , `low_evaluation` )
+
+  - *result*: if the reason capture_low_evaluation, the result is and object with the score. 
+
+    - score: Score index of the evaluation.
+    - retro: List with retro tags. *(Experimental)*
+
+    
+
 #### Step 4: Start component
 
 We recommen to start the component right after the load,  but in case it is required to start the component after specific action you can execute the following command.
@@ -112,6 +149,11 @@ We recommen to start the component right after the load,  but in case it is requ
 ```javascript
 faceCapture.start();
 ```
+
+#### Other methods
+
+- clear() : Finish all connections and removes the elements drawed from DOM.
+- getVersion() :  Get the string values of the component version.
 
 ### IdCapture
 
@@ -135,15 +177,31 @@ let idCapture = new IdCapture();
 let config = {
   rootElement: 'id_component',   // DOM Element that will contains the HTML Component
   timeouts: {
-    front: 25000,
-    back: 25000
-  },       // OPTIONAL - Time before expires the test (defaul)
+    front: 120000,
+    back: 120000
+  },
+  captureMode: {
+    front:{
+      enabled: true,
+      after: 7500
+    },
+    back:{
+      enabled: true,
+      after: 7500
+    }    
+  }
 };
 // Initialize the component with your custom configuration
 idCapture.init(config);
 // Set the JWT token
 idCapture.setToken('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im51Y.....'); // YOUR JWT TOKEN
 ```
+
+##### Configuration options
+
+- **rootElement** (req): DOM Element where the component will be drawn.
+- **timeouts** (opt): Elapsed time in miliseconds to finish the test per side. (Default value of `180000`) 
+- **captureMode** (opt): Define whether you desire to disable or enable the capture mode after n milliseconds.
 
 #### Step 2: Load the component
 
@@ -176,6 +234,23 @@ idCapture.onSuccess((data) => {
   let errorMsg = error.msg;
 });
 ```
+
+##### Output
+
+- **OnSuccess**
+  - *id*: Transaction id, 
+  - *result*: Object with the result of the evaluation.
+    - score: Score index of the evaluation
+    - evaluation: Result of evaluation (`pass` , `warning`)
+  - *front*: Front ID image represented as Base64 string.
+  - *back*: Back ID image represented as Base64 string.
+- OnFail
+  - *reason*: Reason of the fail ( `capture_front_timeout`   ,  `capture_back_timeout`   ,`low_evaluation` )
+  - *result*: if the reason capture_low_evaluation, the result is and object with the score. 
+    - score: Score index of the evaluation.
+    - retro: List with retro tags. *(Experimental)*
+
+
 
 #### Step 4: Start component
 
@@ -258,5 +333,3 @@ We recommen to start the component right after the load,  but in case it is requ
 ```javascript
 videoRecord.start();
 ```
-
-
