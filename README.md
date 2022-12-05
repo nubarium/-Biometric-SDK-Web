@@ -73,7 +73,21 @@ let faceCapture = new FaceCapture();
 
 // Define your configuration
 let config = {
-  rootElement: 'face_component'   // DOM Element that will contains the HTML Component
+  rootElement: 'face_component',   // DOM Element that will contains the HTML Component
+  maxValidations: 3,
+  features: {   // Optional
+    disabled: ["glasses", "facemask"], //Default values // Does not allow glasses and facemask
+    enabled: []
+  },
+  antispoofing: {     // Default values
+    enabled: true,   
+    level: 3
+  },
+  ui: {
+  	colors: {
+      messageScreenTextColor: "#0000ee"   // Example with blue, by default White with black stroke
+    }
+  }
 };
 // Initialize the component with your custom configuration
 faceCapture.init(config);
@@ -85,6 +99,9 @@ faceCapture.setToken('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im51Y
 
 - **rootElement** (req): DOM Element where the component will be drawn.
 - **maxValidations** (req): Max number of failed evaluations, the default values is 3.
+- **features** (opt): Specify the features that are enabled or disabled, by default the use of `glasses` and `facemark` are disabled.
+- **antispoofing** (opt): The anti spoofing is enabled by default, but you can swith to just face capture.
+- **ui** (opt) : The color of the screen messages can be customized, by default are white with a black stroke.
 - **timeout** (opt): Elapsed time in miliseconds to finish the test. (Default value of `180000`) 
 - **cameras** (opt): Specify the cameras allowed to perform the test in order to show to the user, it can be an array list of options or a string, the accepted values are 'front', 'back', 'default'.  Example, `['front', 'back', 'default']`
 
@@ -105,6 +122,10 @@ faceCapture.load(()=>{
 To receive the images and result of component execution it is necessary to setting up a result listener.
 
 ```javascript
+faceCapture.onEvaluation((evaluation, result) => {
+  let ev = evaluation; // pass, warning, fail
+  // The result object is similar to the onSuccess or onFail.
+});
 faceCapture.onSuccess((data) => {
   let id = data.id;
   let result = data.result;
@@ -128,17 +149,18 @@ faceCapture.onSuccess((data) => {
   - *result*: Object with the result of the evaluation.
     - score: Score index of the evaluation
     - evaluation: Result of evaluation (`pass` , `warning`)
+    - retro: List with retro tags  (blurred, very_blurry, glasses, facemask)   . *(Experimental)*
   - *face*: Face image represented as Base64 string.
   - *frame*: Frame image represented as Base64 string.
 
-- OnFail
+- **OnFail**
 
-  - *reason*: Reason of the fail (   `capture_face_timeout` , `low_evaluation` )
+  - *reason*: Reason of the fail (   `capture_face_timeout` , `low_evaluation`, `no_face`, `facemask_not_allowed`, `glasses_not_allowed` )
 
   - *result*: if the reason capture_low_evaluation, the result is and object with the score. 
 
     - score: Score index of the evaluation.
-    - retro: List with retro tags. *(Experimental)*
+    - retro: List with retro tags  (blurred, very_blurry, id_attack, glasses, facemask)   . *(Experimental)*
 
     
 
@@ -153,6 +175,7 @@ faceCapture.start();
 #### Other methods
 
 - clear() : Finish all connections and removes the elements drawed from DOM.
+- retry() : Retry the test without remove the DOM elements.
 - getVersion() :  Get the string values of the component version.
 
 ### IdCapture
