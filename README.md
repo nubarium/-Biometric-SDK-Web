@@ -123,7 +123,7 @@ To receive the images and result of component execution it is necessary to setti
 
 ```javascript
 faceCapture.onEvaluation((evaluation, result) => {
-  let ev = evaluation; // pass, warning, fail
+  let ev = evaluation; // success, fail
   // The result object is similar to the onSuccess or onFail.
 });
 faceCapture.onSuccess((data) => {
