@@ -155,7 +155,7 @@ faceCapture.onSuccess((data) => {
 
 - **OnFail**
 
-  - *reason*: Reason of the fail (   `capture_face_timeout` , `low_evaluation`, `no_face`, `facemask_not_allowed`, `glasses_not_allowed` )
+  - *reason*: Reason of the fail (   `capture_face_timeout` , `low_evaluation`, `no_face`,`face_outside` , `facemask_not_allowed`, `glasses_not_allowed` )
 
   - *result*: if the reason capture_low_evaluation, the result is and object with the score. 
 
