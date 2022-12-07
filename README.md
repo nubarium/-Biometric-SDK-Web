@@ -160,7 +160,7 @@ faceCapture.onSuccess((data) => {
   - *result*: if the reason capture_low_evaluation, the result is and object with the score. 
 
     - score: Score index of the evaluation.
-    - retro: List with retro tags  (blurred, very_blurry, id_attack, glasses, facemask)   . *(Experimental)*
+    - retro: List with retro tags  (`blurred`, `very_blurry`, `id_attack`, `glasses`, `facemask`)   . *(Experimental)*
 
     
 
@@ -260,18 +260,33 @@ idCapture.onSuccess((data) => {
 
 ##### Output
 
-- **OnSuccess**
-  - *id*: Transaction id, 
-  - *result*: Object with the result of the evaluation.
-    - score: Score index of the evaluation
-    - evaluation: Result of evaluation (`pass` , `warning`)
-  - *front*: Front ID image represented as Base64 string.
-  - *back*: Back ID image represented as Base64 string.
-- OnFail
-  - *reason*: Reason of the fail ( `capture_front_timeout`   ,  `capture_back_timeout`   ,`low_evaluation` )
-  - *result*: if the reason capture_low_evaluation, the result is and object with the score. 
-    - score: Score index of the evaluation.
-    - retro: List with retro tags. *(Experimental)*
+**OnSuccess**
+- *id*: Transaction id, 
+- *result*: Object with the result of the evaluation.
+  - score: Score index of the evaluation
+  - evaluation: Result of evaluation (`pass` , `warning`)
+  - retro: List with retro tags  (`high_accurate_ocr`, `ocr_not_readable`, `medium_accurate_ocr`) 
+- *front*: Front ID image represented as Base64 string.
+- *back*: Back ID image represented as Base64 string.
+- *mode*: Object with the capture mode.
+  - front: Capture mode (`passive` , `active`).
+  - back: Capture mode (`passive` , `active`).
+- *document*: Object with the document classification.
+  - class: Main classification of the document (`INE` , `IFE`).
+  - subclass: Capture mode (`C` , `D`, `EF`, `GH`).
+
+*ocr*: Object with the *ocr*  retroalimentation.
+
+- label: Labels identified in the OCR validation.
+  - Frente : *MEX, INE_TIT, IFE_TIT, CRED, REGISTRO, NOMBRE, EDAD, SEXO, NACIMIENTO, DOMICILIO, CVE_ELECTOR, CURP, ESTADO, SECCION, ANO_REG, LOCALIDAD, VIG_HASTA, VIGENCIA, EMISION, MUNICIPIO, NACIMIENTO_VAL, VIGENCIA_VAL, ANO_REG_VAL, CVE_ELECTOR_VAL, CURP_VAL*
+  - Reverso: *IDMEX*
+
+**OnFail**
+
+- *reason*: Reason of the fail ( `capture_front_timeout`   ,  `capture_back_timeout`   ,`low_evaluation`  , `ocr_not_readable`, `low_accurate_ocr` )
+- *result*: if the reason capture_low_evaluation, the result is and object with the score. 
+  - score: Score index of the evaluation.
+  - retro: List with retro tags  (`high_accurate_ocr`, `ocr_not_readable`, `low_accurate_ocr`, `medium_accurate_ocr`)   . *(Experimental)*
 
 
 
@@ -282,6 +297,12 @@ We recommen to start the component right after the load,  but in case it is requ
 ```javascript
 idCapture.start();
 ```
+
+#### Other methods
+
+- clear() : Finish all connections and removes the elements drawed from DOM.
+- retry() : Retry the test without remove the DOM elements.
+- getVersion() :  Get the string values of the component version.
 
 ### Video Selfie
 
