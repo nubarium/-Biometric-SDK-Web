@@ -38,8 +38,9 @@ The library includes 3 components,
 ### Before you begin
 
 - Get the Nubarium Key or API Credentials. It is required to successfully initialize the SDK.
-- Implement the REST API call in your back-end to generate the [JWT token](https://github.com/nubarium/-Biometric-SDK-Web/blob/main/JWT.md).
+- Implement the REST API call in your back-end to generate the [JWT token](https://documenter.getpostman.com/view/23758200/2s83zgvR3A).
 - All the steps in this document are mandatory unless stated otherwise.
+- If you are implementing the VideoRecord component, please use this documentation as reference to obtain the resources. https://documenter.getpostman.com/view/23758200/2s83zgvR3A
 
 ### Reference
 
