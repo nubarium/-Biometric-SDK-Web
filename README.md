@@ -86,7 +86,7 @@ let config = {
   },
   ui: {
   	colors: {
-      messageScreenTextColor: "#0000ee"   // Example with blue, by default White with black stroke
+      messageScreenTextColor: "#ffffff"   // Example with blue, by default White with black stroke
     }
   }
 };
@@ -101,7 +101,7 @@ faceCapture.setToken('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im51Y
 - **rootElement** (req): DOM Element where the component will be drawn.
 - **maxValidations** (req): Max number of failed evaluations, the default values is 3.
 - **features** (opt): Specify the features that are enabled or disabled, by default the use of `glasses` and `facemark` are disabled.
-- **antispoofing** (opt): The anti spoofing is enabled by default, but you can swith to just face capture.
+- **antispoofing** (opt): The anti spoofing is enabled by default, but you can swith to just face capture, also you can specify the antispoofing level, (3 = Hi, 2= Medium, 1= Low)
 - **ui** (opt) : The color of the screen messages can be customized, by default are white with a black stroke.
 - **timeout** (opt): Elapsed time in miliseconds to finish the test. (Default value of `180000`) 
 - **cameras** (opt): Specify the cameras allowed to perform the test in order to show to the user, it can be an array list of options or a string, the accepted values are 'front', 'back', 'default'.  Example, `['front', 'back', 'default']`
