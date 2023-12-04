@@ -28,9 +28,9 @@ The library includes 3 components,
 
 ```html
 <!-- Third party dependency bundle -->
-<script src="//cdn.nubarium.io/nubSdk/nubSdk@latest/nubSdk-third.min.js"></script>
+<script src="//cdn.nubarium.com/nubSdk/nubSdk@latest/nubSdk-third.min.js"></script>
 <!-- Library -->
-<script src="//cdn.nubarium.io/nubSdk/nubSdk@latest/nubSdk-biometrics.min.js"></script>
+<script src="//cdn.nubarium.com/nubSdk/nubSdk@latest/nubSdk-biometrics.min.js"></script>
 ```
 
 ## Integrate
@@ -38,9 +38,8 @@ The library includes 3 components,
 ### Before you begin
 
 - Get the Nubarium Key or API Credentials. It is required to successfully initialize the SDK.
-- Implement the REST API call in your back-end to generate the [JWT token](https://documenter.getpostman.com/view/23758200/2s83zgvR3A).
+- Implement the REST API call in your back-end to generate the [JWT token](https://github.com/nubarium/-Biometric-SDK-Web/blob/main/JWT.md), the documentation is also available on a Postamn Collection (https://documenter.getpostman.com/view/23758200/2s83zgvR3A#faa41449-0a17-4634-826a-774566d5bedb).
 - All the steps in this document are mandatory unless stated otherwise.
-- If you are implementing the VideoRecord component, please use this documentation as reference to obtain the resources. https://documenter.getpostman.com/view/23758200/2s83zgvR3A
 
 ### Reference
 
@@ -83,11 +82,6 @@ let config = {
   antispoofing: {     // Default values
     enabled: true,   
     level: 3
-  },
-  ui: {
-  	colors: {
-      messageScreenTextColor: "#ffffff"   // Example with blue, by default White with black stroke
-    }
   }
 };
 // Initialize the component with your custom configuration
@@ -101,7 +95,7 @@ faceCapture.setToken('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im51Y
 - **rootElement** (req): DOM Element where the component will be drawn.
 - **maxValidations** (req): Max number of failed evaluations, the default values is 3.
 - **features** (opt): Specify the features that are enabled or disabled, by default the use of `glasses` and `facemark` are disabled.
-- **antispoofing** (opt): The anti spoofing is enabled by default, but you can swith to just face capture, also you can specify the antispoofing level, (3 = High, 2= Medium, 1= Low)
+- **antispoofing** (opt): The anti spoofing is enabled by default, but you can swith to just face capture.
 - **ui** (opt) : The color of the screen messages can be customized, by default are white with a black stroke.
 - **timeout** (opt): Elapsed time in miliseconds to finish the test. (Default value of `180000`) 
 - **cameras** (opt): Specify the cameras allowed to perform the test in order to show to the user, it can be an array list of options or a string, the accepted values are 'front', 'back', 'default'.  Example, `['front', 'back', 'default']`
@@ -201,8 +195,8 @@ let idCapture = new IdCapture();
 let config = {
   rootElement: 'id_component',   // DOM Element that will contains the HTML Component
   timeouts: {
-    front: 120000,
-    back: 120000
+    front: 180000,
+    back: 180000
   },
   captureMode: {
     front:{
@@ -213,7 +207,22 @@ let config = {
       enabled: true,
       after: 7500
     }    
-  }
+  },
+  // Enable/Disable image guide
+  guide: {
+  	front: { 
+    	enabled: true //Enable guide on front capture. (By default is enabled)
+    },
+    back: {
+    	enabled: true,  //Enable guide on back capture. (By default is enabled)
+      until: 10000   // wait for 10 seconds to hide the image
+    }
+  },
+  autorate: true //Automatic rotate the image to return a landscape image.
+  antispoofing: {     // Default values
+    enabled: true,   
+    level: 3
+  }  
 };
 // Initialize the component with your custom configuration
 idCapture.init(config);
@@ -223,9 +232,12 @@ idCapture.setToken('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im51Y..
 
 ##### Configuration options
 
-- **rootElement** (req): DOM Element where the component will be drawn.
-- **timeouts** (opt): Elapsed time in miliseconds to finish the test per side. (Default value of `180000`) 
-- **captureMode** (opt): Define whether you desire to disable or enable the capture mode after n milliseconds.
+- **rootElement** (required): DOM Element where the component will be drawn.
+- **timeouts** (optional): Elapsed time in miliseconds to finish the test per side. (Default value of `180000`) 
+- **captureMode** (optional): Define whether you desire to disable or enable the capture mode after n milliseconds.
+- **guide** (optional): Defines whether you want to enable the credential guide image to help the end user capture it. By default it will be enabled but you can disable it if desired or indicate the time after which it is disabled.
+- **autorotate** (optional): Flag to force auto rotate (orientation) of the output image for front and back, by default it is disabled. It is recommended to enable it since the OCR reading can give better results
+- **antispoofing** (optional): Configuration to enable or disable credential validation or vary the level of strict to handle.
 
 #### Step 2: Load the component
 
@@ -317,7 +329,9 @@ It is necessary to first declare the HTML Element where the component where the 
 <div id="video_component"></div>
 ```
 
-Then you will need to declare the javascript code that calls the library
+Then you will need to declare the javascript code that calls the library.
+
+**Example with a voice recording**
 
 ```javascript
 // Class initialization with the Application Context
@@ -328,17 +342,68 @@ let config = {
   rootElement: 'video_component',   // DOM Element that will contains the HTML Component
   textToPronounce: 'Yo Juan perez acepto la solicitud de credito',
   timeouts: {
-    face: 12000,
-    front: 15000,
-    back: 13000
-  },       // OPTIONAL - Time before the test expires (default)
-  requestId: 'bv1234568.96543'  // OPTIONAL - In case you requires to set the text to speech in the backend
+    face: 90000,
+    front: 120000,
+    back: 120000
+  },
+  guide: {  // Enable/Disable image guide
+  	front: { 
+    	enabled: true  //Enable guide on front capture. (By default is enabled)
+    },
+    back: {
+    	enabled: true,  //Enable guide on back capture. (By default is enabled)
+      until: 10000   // wait for 10 seconds to hide the image
+    }
+  }
 };
 // Initialize the component with your custom configuration
 videoRecorder.init(config);
 // Set the JWT token
 videoRecorder.setToken('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im51Y.....'); // YOUR JWT TOKEN
 ```
+
+**Example without a voice recording**
+
+```javascript
+// Class initialization with the Application Context
+let videoRecorder = new VideoRecorder();
+
+// Define your configuration
+let config = {
+  rootElement: 'video_component',   // DOM Element that will contains the HTML Component
+  timeouts: {
+    face: 90000,
+    front: 120000,
+    back: 120000
+  },
+  guide: {  // Enable/Disable image guide
+  	front: { 
+    	enabled: true  //Enable guide on front capture. (By default is enabled)
+    },
+    back: {
+    	enabled: true,  //Enable guide on back capture. (By default is enabled)
+      until: 10000   // wait for 10 seconds to hide the image
+    }
+  },
+  tasks: {
+  	disabled: ["transcript"]
+  }
+};
+// Initialize the component with your custom configuration
+videoRecorder.init(config);
+// Set the JWT token
+videoRecorder.setToken('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im51Y.....'); // YOUR JWT TOKEN
+```
+
+##### Configuration options
+
+- **rootElement** (required): DOM Element where the component will be drawn.
+- **textToPronounce** (optional): Text to be pronounced if the end user is required to mention a text and validate that he pronounces it correctly, for this purpose the option can also be configured with ***limitScore***.
+- **limitScore** (optional): Value that can be specified if and only if the option  ***textToPronounce*** is used. 
+- **timeouts** (optional): Elapsed time in miliseconds to finish the test per side. (Default value of `180000`) 
+- **captureMode** (optional): Define whether you desire to disable or enable the capture mode after n milliseconds.
+- **guide** (optional): Defines whether you want to enable the credential guide image to help the end user capture it. By default it will be enabled but you can disable it if desired or indicate the time after which it is disabled..
+- **tasks** (optional): You can enable which tasks to enable or disable, to do this you can specify the disabled attribute with the following available values:`face_capture`, `id_capture_front`, `id_capture_back` o `transcript`.
 
 #### Step 2: Load the component
 
@@ -360,6 +425,7 @@ To receive the images and result of component execution it is necessary to setti
 videoRecord.onSuccess((data) => {
   let id = data.id;
   let result = data.result;
+  // The following is available just for audio recording.
   let similarity = result.similarity;
   let difference = result.difference;
 }).onFail((fail) => {
